@@ -1,0 +1,18 @@
+.btn {
+  @include font($ptsans, 14px, 20px, 400);
+
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: top;
+
+  &:hover {
+
+  }
+
+  &:active {
+
+  }
+}

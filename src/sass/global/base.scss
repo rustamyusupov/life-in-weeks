@@ -1,0 +1,30 @@
+body {
+  @include font($ptsans, 16px, 20px, 400);
+
+  color: $white;
+}
+
+/**
+ * Prevent font boosting.
+ */
+html * {
+  max-height: 1000000px;
+}
+
+h1,
+h2,
+h3,
+p,
+img {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
