@@ -1,9 +1,7 @@
 @import "node_modules/normalize.css/normalize";
-@import "global/mixin";
 @import "global/variable";
 @import "global/forms";
 @import "global/base";
 @import "blocks/main";
-@import "blocks/title";
-@import "blocks/user-form";
+@import "blocks/form";
 @import "blocks/table";

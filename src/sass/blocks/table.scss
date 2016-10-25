@@ -1,0 +1,171 @@
+.table {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 45px;
+  margin-top: 40px;
+  max-width: 627px;
+  position: relative;
+
+  &__label {
+    color: $font-color-table-label;
+    font-size: $font-size-table-label;
+    letter-spacing: 0.5px;
+    line-height: $line-height-table-label;
+    position: absolute;
+
+    &--weeks {
+      left: 6px;
+      top: -43px;
+    }
+
+    &--years {
+      left: -115px;
+      top: 76px;
+      transform: rotate(-90deg);
+      width: 170px;
+    }
+  }
+
+  &__image {
+    vertical-align: top;
+
+    &--weeks {
+      padding-left: 5px;
+      padding-top: 4px;
+    }
+
+    &--years {
+      display: inline;
+      padding-right: 2px;
+      padding-top: 5px;
+    }
+  }
+
+  &__markers {
+    color: $font-color-table-markers;
+    font-size: $font-size-table-markers;
+    line-height: $line-height-table-markers;
+
+    &--weeks {
+      display: flex;
+      justify-content: space-between;
+      left: 1px;
+      position: absolute;
+      top: -11px;
+      width: 95.8%;
+    }
+  }
+
+  &__markers--years li {
+    left: -15px;
+    position: absolute;
+  }
+
+  &__markers--years li:nth-child(1) {
+    left: -9px;
+    top: 0;
+  }
+
+  &__markers--years li:nth-child(2) {
+    left: -9px;
+    top: 5.55%;
+  }
+
+  &__markers--years li:nth-child(3) {
+    top: 11.11%;
+  }
+
+  &__markers--years li:nth-child(4) {
+    top: 16.66%;
+  }
+
+  &__markers--years li:nth-child(5) {
+    top: 22.22%;
+  }
+
+  &__markers--years li:nth-child(6) {
+    top: 27.77%;
+  }
+
+  &__markers--years li:nth-child(7) {
+    top: 33.33%;
+  }
+
+  &__markers--years li:nth-child(8) {
+    top: 38.88%;
+  }
+
+  &__markers--years li:nth-child(9) {
+    top: 44.44%;
+  }
+
+  &__markers--years li:nth-child(10) {
+    top: 50%;
+  }
+
+  &__markers--years li:nth-child(11) {
+    top: 55.55%;
+  }
+
+  &__markers--years li:nth-child(12) {
+    top: 61.11%;
+  }
+
+  &__markers--years li:nth-child(13) {
+    top: 66.66%;
+  }
+
+  &__markers--years li:nth-child(14) {
+    top: 72.22%;
+  }
+
+  &__markers--years li:nth-child(15) {
+    top: 77.77%;
+  }
+
+  &__markers--years li:nth-child(16) {
+    top: 83.33%;
+  }
+
+  &__markers--years li:nth-child(17) {
+    top: 88.88%;
+  }
+
+  &__markers--years li:nth-child(18) {
+    top: 94.44%;
+  }
+
+  &__markers--years li:nth-child(19) {
+    font-size: $font-size-table-marker-90;
+    font-weight: bold;
+    line-height: $line-height-table-marker-90;
+    left: 99.9%;
+    top: 99.1%;
+  }
+
+  &__content {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 3px;
+  }
+
+  &__content > li {
+    border: 1px solid $cell-border-color;
+    box-sizing: border-box;
+    margin: 0.32%;
+    padding-bottom: 0.96%;
+    width: 1.28%;
+  }
+
+  &__active-cell {
+    background-color: $cell-fill-color;
+  }
+}
+
+@media #{$break-large} {
+  .table {
+    margin-right: 182px;
+  }
+}
