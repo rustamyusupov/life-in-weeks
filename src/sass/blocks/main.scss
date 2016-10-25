@@ -1,0 +1,32 @@
+.main {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin: 0 auto;
+  min-width: 300px;
+  padding: 0 10px;
+
+  &__title {
+    color: $font-color-title;
+    font-size: $font-size-title;
+    line-height: $line-height-title;
+    margin-bottom: 27px;
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__select {
+    color: $font-color-select;
+  }
+}
+
+@media #{$break-large} {
+  .main {
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+}

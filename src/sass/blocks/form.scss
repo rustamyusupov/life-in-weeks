@@ -1,0 +1,88 @@
+.form {
+  color: $font-color-form;
+  display: flex;
+  font-size: $font-size-form;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  margin-left: 3.335%;
+  max-width: 627px;
+
+  &__group {
+    text-align: center;
+
+    &--sex {
+      width: 21%;
+    }
+
+    &--birthday {
+      margin-right: 10px;
+      width: 27%;
+    }
+
+    &--country {
+      width: 40%;
+    }
+  }
+
+  &__group-item {
+    align-items: flex-start;
+    display: flex;
+  }
+
+  &__label {
+    color: $font-color-form-label;
+    display: block;
+    font-size: $font-size-base;
+    margin-bottom: 3px;
+  }
+
+  &__radio {
+    margin-right: 4px;
+    margin-top: 1px;
+  }
+
+  &__date {
+    height: 25px;
+    text-align: right;
+    width: 100%;
+  }
+
+  &__select {
+    color: $font-color-form;
+    height: 25px;
+    width: 100%;
+  }
+}
+
+@media #{$break-large} {
+  .form {
+    align-items: flex-end;
+    flex-direction: column;
+    margin-left: 0;
+    margin-right: 20px;
+    margin-top: 30px;
+    max-width: 130px;
+
+    &__group {
+      text-align: right;
+      margin-bottom: 15px;
+
+      &--sex {
+        width: 45.5%;
+      }
+
+      &--birthday {
+        margin-right: 0;
+        width: 58.5%;
+      }
+
+      &--country {
+        width: 100%;
+      }
+    }
+
+    &__group-item {
+      justify-content: flex-end;
+    }
+  }
+}
