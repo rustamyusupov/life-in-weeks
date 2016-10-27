@@ -9,6 +9,13 @@ const buffer = require('vinyl-buffer');
 
 let isDev = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
+function errorHandler(err) {
+  return {
+    title: 'browserify error',
+    message: err.message
+  }
+}
+
 function js(options) {
 
   return function() {
@@ -18,13 +25,8 @@ function js(options) {
       })
       .transform(babelify)
       .bundle()
-      .on('error', $.notify.onError(function(err) {
-        return {
-          title: "browserify error",
-          message: err.message
-        }
-      }))
-      .pipe(source('script.js'))
+      .on('error', $.notify.onError( errorHandler ))
+      .pipe(source(options.src))
       .pipe(buffer())
       .pipe($.debug({
         title: 'js'

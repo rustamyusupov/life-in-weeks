@@ -8,6 +8,13 @@ const sorting = require('postcss-sorting');
 
 let isDev = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
+function errorHandler(err) {
+  return {
+    title: 'styles compilation error',
+    message: err.message
+  }
+}
+
 function styles(options) {
 
   return function() {
@@ -19,6 +26,7 @@ function styles(options) {
       .pipe($.sass({
         outputStyle: 'expanded'
       }))
+      .on('error', $.notify.onError( errorHandler ))
       .pipe($.postcss([
         autoprefixer,
         mqpacker({
@@ -26,6 +34,7 @@ function styles(options) {
         }),
         sorting
       ]))
+      .on('error', $.notify.onError( errorHandler ))
       .pipe($.if(options.transfer, gulp.dest(options.build)))
       .pipe($.if(!isDev, $.csso()))
       .pipe($.rename('style.min.css'))
