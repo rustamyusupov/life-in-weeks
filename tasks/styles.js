@@ -19,6 +19,12 @@ function styles(options) {
       .pipe($.sass({
         outputStyle: 'expanded'
       }))
+      .on('error', $.notify.onError(function(err) {
+        return {
+          title: 'styles compilation error',
+          message: err.message
+        }
+      }))
       .pipe($.postcss([
         autoprefixer,
         mqpacker({
@@ -26,6 +32,12 @@ function styles(options) {
         }),
         sorting
       ]))
+      .on('error', $.notify.onError(function(err) {
+        return {
+          title: 'styles compilation error',
+          message: err.message
+        }
+      }))
       .pipe($.if(options.transfer, gulp.dest(options.build)))
       .pipe($.if(!isDev, $.csso()))
       .pipe($.rename('style.min.css'))
