@@ -1,8 +1,7 @@
 'use strict';
 
 import { httpRequest } from './load';
-import { parse } from './parse';
-import { sortArrayOfObjectsByKey } from './util'
+import { sortArrayOfObjectsByKey } from './utils'
 
 /**
  * @const
@@ -24,19 +23,47 @@ const QUERY = {
 };
 
 /**
+ * парсит данные
+ * @param {object} data набор данных
+ * @returns {array}
+ */
+function parseData(data) {
+  let countries = [];
+  let text = data['parse']['text']['*'];
+
+  // extract rows
+  let trs = text.slice(text.indexOf('<table class="wikitable sortable">')).match(/<tr>([\s\S]*?)<\/tr>/g);
+
+  trs.forEach(function(item) {
+    // extract columns
+    let tds = item.match(/<td>([\s\S]*?)<\/td>/g);
+
+    if (tds) {
+      countries.push({
+        country: tds[1].match(/<a[^>]+>([\s\S]*?)<\/a>/)[1],
+        male: +tds[3].match(/<td>([\s\S]*?)<\/td>/)[1],
+        female: +tds[4].match(/<td>([\s\S]*?)<\/td>/)[1]
+      });
+    }
+  });
+
+  return countries;
+}
+
+/**
  * callback-функция получает страны из запроса
  * @param {object} data страны
  */
 function renderOptions(data) {
   let select = document.getElementById('country');
 
-  // парсинг данных
-  let countries = parse(data);
+  // парсинг
+  let countries = parseData(data);
 
   // сортировка по стране
   let sortedCountries = sortArrayOfObjectsByKey(countries, 'country');
 
-  // заполнение select
+  // наполнение select
   sortedCountries.forEach(function(item) {
     let option = document.createElement('option');
 
@@ -46,15 +73,16 @@ function renderOptions(data) {
     // вариант по умолчанию
     if (item['country'] === 'Russian Federation') option.selected = true;
 
+    // TODO: можно ли оптимизировать и вставлять скопом?
     select.add(option);
   });
 }
 
 /**
- * отправляет запрос к wikipedia
+ * получает среднюю продолжительность жизни
  */
-function loadSelect() {
+function getLifeExpectancy() {
   httpRequest(URL, QUERY, renderOptions);
 }
 
-export { loadSelect };
+export { getLifeExpectancy };
