@@ -37,25 +37,25 @@
         <span class="form__label">Sex</span>
 
         <div class="form__group-item">
-          <input class="form__radio" name="sex" id="male" type="radio" value="Male">
+          <input class="form__radio" name="sex" id="male" type="radio" value="Male" required>
           <label for="male">Male</label>
         </div>
 
         <div class="form__group-item">
-          <input class="form__radio" name="sex" id="female" type="radio" value="Female">
+          <input class="form__radio" name="sex" id="female" type="radio" value="Female" required>
           <label for="female">Female</label>
         </div>
       </div>
 
       <div class="form__group form__group--birthday">
         <label class="form__label" for="date">Birthday</label>
-        <input class="form__date" name="date" id="date" type="text" pattern="(0[1-9]|[12][0-9]|3[01]).(0[1-9]|1[012]).(18|19|20)\d\d" placeholder="dd.mm.yyyy" required>
+        <input class="form__date" name="date" id="date" type="text" pattern="(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](18|19|20)\d\d" placeholder="dd.mm.yyyy" required>
       </div>
 
       <div class="form__group form__group--country">
         <label class="form__label" for="country">Country of Birth</label>
         <select class="form__select" name="country" id="country">
-          <option selected value disabled>Select country</option>
+          <option value="" disabled selected>Select country</option>
         </select>
       </div>
     </form>

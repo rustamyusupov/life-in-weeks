@@ -1,10 +1,20 @@
 input[type="text"],
 select {
+  border: 1px solid $element-border-color;
+  border-radius: 5px;
   box-sizing: border-box;
   outline: none;
 
+  &:focus {
+    border-color: $element-focus-border-color;
+  }
+
   &:invalid {
     box-shadow: none;
+  }
+
+  &:invalid:not(:placeholder-shown) {
+    border-color: $element-invalid-border-color;
   }
 }
 
