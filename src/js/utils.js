@@ -60,13 +60,10 @@ function parseData(data) {
 
   trs.forEach(function(item) {
     let tds = item.match(/<td>([\s\S]*?)<\/td>/g);
-
     if (tds) ages.push( getAge(tds) );
   });
 
-  ages.sort(function(a, b) {return b - a});
-
-  return ages[0];
+  return Math.max(...ages);
 }
 
 /**
