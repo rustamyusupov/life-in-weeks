@@ -75,7 +75,7 @@ function isValidDate(date) {
   const MAX_AGE = 122; // TODO: взять из кук
 
   let today = new Date();
-  let val = date.split('/');
+  let val = date.split('.');
   let curDate = new Date(val[2], val[1] - 1, val[0]);
   let maxAge = today.getFullYear() - 122;
 

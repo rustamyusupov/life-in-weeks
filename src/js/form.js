@@ -31,7 +31,7 @@ function calculateElapsedWeeks() {
 
   let expectancyValue = sex.value === 'Male' ? country.value.split(',')[0] : country.value.split(',')[1];
 
-  let val = date.value.split('/');
+  let val = date.value.split('.');
   let dateValue = new Date(val[2], val[1] - 1, val[0]);
 
   return getWeeksFromDate(dateValue);
