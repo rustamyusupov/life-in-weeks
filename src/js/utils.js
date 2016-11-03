@@ -73,6 +73,8 @@ function parseData(data) {
  */
 function isValidDate(date) {
   const MAX_AGE = 122; // TODO: взять из кук
+  // максимальная продолжительность жизни
+  //getMaxAge();
 
   let today = new Date();
   let val = date.split('.');
@@ -132,4 +134,4 @@ function getWeeksFromDate(date) {
   return isDateInFuture ? yearsInWeeks + weeks : yearsInWeeks - weeks;
 }
 
-export {getMaxAge, sortArrayOfObjectsByKey, isValidDate, getWeeksFromDate};
+export {sortArrayOfObjectsByKey, isValidDate, getWeeksFromDate};
