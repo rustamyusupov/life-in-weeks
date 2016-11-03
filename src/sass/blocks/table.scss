@@ -152,7 +152,7 @@
     padding-top: 3px;
   }
 
-  &__content > li {
+  &__cell {
     border: 1px solid $cell-border-color;
     box-sizing: border-box;
     margin: 0.32%;
@@ -162,6 +162,10 @@
 
   &__active-cell {
     background-color: $cell-fill-color;
+  }
+
+  &__disabled-cell {
+    border-color: $cell-disable-border-color;
   }
 }
 

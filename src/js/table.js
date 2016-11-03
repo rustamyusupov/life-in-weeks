@@ -1,25 +1,27 @@
 'use strict';
 
+let cells = document.querySelectorAll('.table__cell');
+
 /**
  * очищает ячейки
+ * @param {string} className
  */
-function clearCells() {
-  let cells = document.querySelectorAll('.table__content li');
-
+function clearCells(className) {
   Array.prototype.forEach.call(cells, function(item, i) {
-    item.classList.remove('table__active-cell');
+    item.classList.remove(className);
   });
 }
 
 /**
  * закрашивает ячейки
+ * @param {boolean} isActive
  * @param {number} count
  */
-function renderCells(count) {
-  let cells = document.querySelectorAll('.table__content li');
+function renderCells(isActive, count) {
+  let className = isActive ? 'table__active-cell' : 'table__disabled-cell';
 
   Array.prototype.forEach.call(cells, function(item, i) {
-    if (i < count) item.classList.add('table__active-cell');
+    if (isActive ? i < count : i > count) item.classList.add(className);
   });
 }
 

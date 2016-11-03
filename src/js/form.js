@@ -30,10 +30,8 @@ function isValidFields() {
 function getLifeExpectancyBySex() {
   let sex = document.querySelector('input[name="sex"]:checked');
 
-  if (sex) return sex.value === 'Male' ?
-    Math.floor(country.value.split(',')[0]) : Math.floor(country.value.split(',')[1]);
-
-  return null;
+  if (sex) return sex.value === 'Male' ? country.value.split(',')[0] :
+    country.value.split(',')[1];
 }
 
 /**
@@ -51,19 +49,26 @@ function calculateElapsedWeeks() {
  * обработчик формы
  */
 function formHandler() {
-  clearCells();
+  clearCells('table__active-cell');
 
-  if ( isValidFields() ) renderCells( calculateElapsedWeeks() );
+  if ( isValidFields() ) renderCells( true, calculateElapsedWeeks() );
 }
 
 /**
  * устанавливает возраст в зависимости от страны и пола
  */
 function setAge() {
+  const WEEKS_IN_YEAR = 52;
+
   let titleYears = document.querySelector('.main__years');
   let lifeExpectancy = getLifeExpectancyBySex();
 
-  titleYears.innerHTML = lifeExpectancy ? lifeExpectancy : 90;
+  if (!lifeExpectancy) return;
+
+  titleYears.innerHTML = Math.floor(lifeExpectancy);
+
+  clearCells('table__disabled-cell');
+  renderCells( false, Math.floor(lifeExpectancy * WEEKS_IN_YEAR) );
 }
 
 /**
