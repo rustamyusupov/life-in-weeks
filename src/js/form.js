@@ -1,12 +1,39 @@
 'use strict';
 
-import { getMaxAge, isValidDate, getWeeksFromDate } from './utils';
+import { getMaxAge, isDate, getWeeksFromDate } from './utils';
 import { clearCells, renderCells } from './table';
-import { getLifeExpectancy } from './select';
+import { loadCountries } from './select';
 
 let sex = document.querySelectorAll('input[name="sex"]');
 let date = document.getElementById('date');
 let country = document.getElementById('country');
+
+/**
+ * получает дату рождения
+ * @returns {date}
+ */
+function getBirthday() {
+  let inputField = date.value.split('.');
+  let birthday = new Date(inputField[2], inputField[1] - 1, inputField[0]);
+
+  return birthday;
+}
+
+/**
+ * проверяет возраст
+ * @returns {boolean}
+ */
+function isValidAge() {
+  const MAX_AGE = 122; // TODO: взять из кук
+  // максимальная продолжительность жизни
+  //getMaxAge();
+
+  let today = new Date();
+  let birthday = getBirthday();
+  let maxAge = today.getFullYear() - MAX_AGE;
+
+  return birthday < today && maxAge < birthday.getFullYear();
+}
 
 /**
  * проверяет валидность заполнения полей
@@ -18,9 +45,11 @@ function isValidFields() {
   let isSexValid = Boolean(sex);
   let isCountryValid = Boolean(country.value);
 
-  let isDateValid = isValidDate(date.value) && date.checkValidity();
+  let isAgeValid = isValidAge();
+  date.setCustomValidity(isAgeValid ? '' : 'Invalid');
+  let isDateValid = isDate(date.value) && date.checkValidity();
 
-  return isDateValid && isSexValid && isCountryValid;
+  return isSexValid && isCountryValid && isDateValid && isAgeValid;
 }
 
 /**
@@ -35,23 +64,13 @@ function getLifeExpectancyBySex() {
 }
 
 /**
- * вычисляет количество оставшихся недель
- * @returns {number}
- */
-function calculateElapsedWeeks() {
-  let val = date.value.split('.');
-  let dateValue = new Date(val[2], val[1] - 1, val[0]);
-
-  return getWeeksFromDate(dateValue);
-}
-
-/**
  * обработчик формы
  */
 function formHandler() {
   clearCells('table__active-cell');
 
-  if ( isValidFields() ) renderCells( true, calculateElapsedWeeks() );
+  let elapsedWeeks = isValidFields() ? getWeeksFromDate( getBirthday() ) : 0;
+  renderCells(true, elapsedWeeks);
 }
 
 /**
@@ -85,8 +104,7 @@ function load() {
   country.addEventListener('change', formHandler);
   country.addEventListener('change', setAge);
 
-  // средняя продолжительность жизни по странам
-  getLifeExpectancy();
+  loadCountries();
 }
 
 export { load as loadForm };

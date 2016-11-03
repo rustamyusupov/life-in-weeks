@@ -81,8 +81,8 @@ function renderOptions(data) {
 /**
  * получает среднюю продолжительность жизни
  */
-function getLifeExpectancy() {
+function loadCountries() {
   httpRequest(URL, QUERY, renderOptions);
 }
 
-export { getLifeExpectancy };
+export { loadCountries };

@@ -67,29 +67,21 @@ function parseData(data) {
 }
 
 /**
- * проверяет дату по шаблону dd/mm/yyyy
+ * проверяет дату по шаблону dd.mm.yyyy
  * @param {date} date дата
  * @returns {boolean}
  */
-function isValidDate(date) {
-  const MAX_AGE = 122; // TODO: взять из кук
-  // максимальная продолжительность жизни
-  //getMaxAge();
-
+function isDate(date) {
   let today = new Date();
   let val = date.split('.');
   let curDate = new Date(val[2], val[1] - 1, val[0]);
-  let maxAge = today.getFullYear() - 122;
 
   // проверка на дату по шаблону
   let isDate = curDate.getFullYear() === +val[2] &&
                curDate.getMonth() === +val[1] - 1 &&
                +curDate.getDate() === +val[0];
 
-  // проверка возраста
-  let isValidAge = curDate < today && maxAge < curDate.getFullYear();
-
-  return isDate && isValidAge;
+  return isDate;
 }
 
 /**
@@ -134,4 +126,4 @@ function getWeeksFromDate(date) {
   return isDateInFuture ? yearsInWeeks + weeks : yearsInWeeks - weeks;
 }
 
-export {sortArrayOfObjectsByKey, isValidDate, getWeeksFromDate};
+export {sortArrayOfObjectsByKey, isDate, getWeeksFromDate};
