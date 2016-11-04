@@ -1,70 +1,16 @@
 'use strict';
 
-import { httpRequest } from './load';
+/**
+ * @const
+ * @type {number}
+ */
+const MILLISECONDS_IN_WEEKS = 1000 * 60 * 60 * 24 * 7;
 
 /**
  * @const
- * @type {string}
+ * @type {number}
  */
-const URL = 'https://en.wikipedia.org/w/api.php';
-
-/**
- * @const
- * @type {string}
- */
-const QUERY = {
-  action: 'parse',
-  page: 'List_of_the_verified_oldest_people',
-  section: 1,
-  prop: 'text',
-  origin: '*',
-  format: 'json'
-};
-
-/**
- * получает максимальную продолжительность жизни
- */
-function getMaxAge() {
-  httpRequest(URL, QUERY, saveMaxAge);
-}
-
-/**
- * сохраняет максимальную продолжительность жизни
- */
-function saveMaxAge(data) {
-  console.log( parseData(data) ); // TODO: сохранить в куки
-}
-
-/**
- * парсит данные
- * @param {object} data набор данных
- * @returns {array}
- */
-function parseData(data) {
-  let ages = [];
-  let text = data['parse']['text']['*'];
-
-  // extract rows
-  let trs = text.slice(text.indexOf('<table class="wikitable sortable">')).match(/<tr>([\s\S]*?)<\/tr>/g);
-
-  // извлекает возраст
-  function getAge(rows) {
-    let age = 0;
-
-    rows.forEach(function(item) {
-      if (~item.indexOf('year')) age = parseInt((item.match(/<td>([\s\S]*?)<\/td>/)[1]).split(' ')[0]);
-    });
-
-    return age;
-  }
-
-  trs.forEach(function(item) {
-    let tds = item.match(/<td>([\s\S]*?)<\/td>/g);
-    if (tds) ages.push( getAge(tds) );
-  });
-
-  return Math.max(...ages);
-}
+const WEEKS_IN_YEAR = 52;
 
 /**
  * проверяет дату по шаблону dd.mm.yyyy
@@ -73,15 +19,21 @@ function parseData(data) {
  */
 function isDate(date) {
   let today = new Date();
-  let val = date.split('.');
-  let curDate = new Date(val[2], val[1] - 1, val[0]);
+  let value = date.split('.');
 
-  // проверка на дату по шаблону
-  let isDate = curDate.getFullYear() === +val[2] &&
-               curDate.getMonth() === +val[1] - 1 &&
-               +curDate.getDate() === +val[0];
+  let day = Boolean(value[0]) && value[0].length === 2 ? +value[0] : 0;
+  let month = Boolean(value[1]) && value[1].length === 2 ? +value[1] - 1 : 0;
+  let year = Boolean(value[2]) && value[2].length === 4 ? +value[2] : 0;
 
-  return isDate;
+  if ( !(day && month && year) ) return false;
+
+  let birthday = new Date(year, month, day);
+
+  let result = birthday.getFullYear() === year &&
+               birthday.getMonth() === month &&
+               +birthday.getDate() === day;
+
+  return result;
 }
 
 /**
@@ -90,10 +42,22 @@ function isDate(date) {
  * @param {string} key ключ сортировки
  * @returns {array}
  */
-function sortArrayOfObjectsByKey(array, key) {
+function sortArrayOfObjects(array, key) {
   return array.sort(function(a, b) {
     return a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0;
   });
+}
+
+/**
+ * сортирует объект по ключу
+ * @param {object} obj объект
+ * @returns {object}
+ */
+function sortObject(obj) {
+  return Object.keys(obj).sort().reduce(function(result, key) {
+    result[key] = obj[key];
+    return result;
+  }, {});
 }
 
 /**
@@ -104,9 +68,6 @@ function sortArrayOfObjectsByKey(array, key) {
  * @returns {number}
  */
 function getWeeksFromDate(date) {
-  const MILLISECONDS_IN_WEEKS = 1000 * 60 * 60 * 24 * 7;
-  const WEEKS_IN_YEAR = 52;
-
   let today = new Date();
 
   // дата в текущем году
@@ -126,4 +87,4 @@ function getWeeksFromDate(date) {
   return isDateInFuture ? yearsInWeeks + weeks : yearsInWeeks - weeks;
 }
 
-export {sortArrayOfObjectsByKey, isDate, getWeeksFromDate};
+export { sortObject, isDate, getWeeksFromDate };

@@ -1,7 +1,7 @@
 'use strict';
 
 import { httpRequest } from './load';
-import { sortArrayOfObjectsByKey } from './utils'
+import { sortObject } from './utils'
 
 /**
  * @const
@@ -28,7 +28,7 @@ const QUERY = {
  * @returns {array}
  */
 function parseData(data) {
-  let countries = [];
+  let countries = {};
   let text = data['parse']['text']['*'];
 
   // extract rows
@@ -39,11 +39,10 @@ function parseData(data) {
     let tds = item.match(/<td>([\s\S]*?)<\/td>/g);
 
     if (tds) {
-      countries.push({
-        country: tds[1].match(/<a[^>]+>([\s\S]*?)<\/a>/)[1],
+      countries[tds[1].match(/<a[^>]+>([\s\S]*?)<\/a>/)[1]] = {
         male: +tds[3].match(/<td>([\s\S]*?)<\/td>/)[1],
         female: +tds[4].match(/<td>([\s\S]*?)<\/td>/)[1]
-      });
+      }
     }
   });
 
@@ -56,26 +55,26 @@ function parseData(data) {
  */
 function renderOptions(data) {
   let select = document.getElementById('country');
+  let country = localStorage.getItem('country'); // TODO: подумать как лучше сделать
 
   // парсинг
   let countries = parseData(data);
-
-  // сортировка по стране
-  let sortedCountries = sortArrayOfObjectsByKey(countries, 'country');
+  // сортировка
+  let sortedCountries = sortObject(countries);
 
   // наполнение select
-  sortedCountries.forEach(function(item) {
+  for (var item in sortedCountries) {
     let option = document.createElement('option');
 
-    option.value = item['male'] + ',' + item['female'];
-    option.text = item['country'];
+    option.value = sortedCountries[item]['male'] + ',' + sortedCountries[item]['female'];
+    option.text = item;
 
     // вариант по умолчанию
-    if (item['country'] === 'Russian Federation') option.selected = true;
+    if (item === country) option.selected = true;
 
     // TODO: можно ли оптимизировать и вставлять скопом?
     select.add(option);
-  });
+  }
 }
 
 /**
