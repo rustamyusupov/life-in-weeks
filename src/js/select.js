@@ -55,6 +55,7 @@ function parseData(data) {
  */
 function renderOptions(data) {
   let select = document.getElementById('country');
+  let optionsFragment = document.createDocumentFragment();
   let country = localStorage.getItem('country'); // TODO: подумать как лучше сделать
 
   // парсинг
@@ -68,13 +69,13 @@ function renderOptions(data) {
 
     option.value = sortedCountries[item]['male'] + ',' + sortedCountries[item]['female'];
     option.text = item;
+    optionsFragment.appendChild(option);
 
     // вариант по умолчанию
     if (item === country) option.selected = true;
-
-    // TODO: можно ли оптимизировать и вставлять скопом?
-    select.add(option);
   }
+
+  select.appendChild(optionsFragment);
 }
 
 /**
