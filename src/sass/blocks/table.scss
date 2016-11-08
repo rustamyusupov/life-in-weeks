@@ -7,6 +7,7 @@
   max-width: 627px;
   margin-right: 20px;
   position: relative;
+  width: 85%;
 
   &__label {
     color: $font-color-table-label;
@@ -146,15 +147,15 @@
   }
 
   &__content {
-    box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
+    @include clearfix;
+
     padding-top: 3px;
   }
 
   &__cell {
     border: 1px solid $cell-border-color;
     box-sizing: border-box;
+    float: left;
     margin: 0.32%;
     padding-bottom: 0.96%;
     width: 1.28%;
@@ -172,5 +173,6 @@
 @media #{$break-large} {
   .table {
     margin-right: 182px;
+    width: 627px;
   }
 }

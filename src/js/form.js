@@ -106,12 +106,9 @@ function isValidBirthday() {
 function setCountry(value) {
   let country = document.getElementById('country');
 
-  for(let option of country.options) {
-    if (option.text === value) {
-      option.selected = true;
-      break;
-    }
-  }
+  Array.prototype.forEach.call(country.options, function(item) {
+    if (item.text === value) item.selected = true;
+  });
 }
 
 /**

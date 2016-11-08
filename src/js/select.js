@@ -106,9 +106,6 @@ function getCountries() {
   return JSON.parse(strCountries);
 }
 
-/**
- * получает среднюю продолжительность жизни
- */
 function loadCountries() {
   let countries = getCountries();
 

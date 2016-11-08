@@ -32,6 +32,7 @@
   }
 
   &__group-item {
+    align-items: center;
     display: flex;
     margin-right: 5px;
 
@@ -50,7 +51,7 @@
 
   &__radio {
     margin-right: 4px;
-    margin-top: 1px;
+    margin-bottom: 2px;
   }
 
   &__date {
@@ -69,6 +70,8 @@
   &__cite {
     font-size: $font-size-cite;
     line-height: $line-height-cite;
+    text-align: center;
+    width: 100%;
   }
 }
 
