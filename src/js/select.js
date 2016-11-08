@@ -51,38 +51,72 @@ function parseData(data) {
 
 /**
  * callback-функция получает страны из запроса
- * @param {object} data страны
+ * @param {object} data
  */
-function renderOptions(data) {
-  let select = document.getElementById('country');
-  let optionsFragment = document.createDocumentFragment();
-  let country = localStorage.getItem('country'); // TODO: подумать как лучше сделать
-
-  // парсинг
+function countryProcessing(data) {
   let countries = parseData(data);
-  // сортировка
   let sortedCountries = sortObject(countries);
 
+  if (!sortedCountries) return;
+
+  renderOptions(sortedCountries);
+  saveCountries(sortedCountries);
+}
+
+/**
+ * наполняет select странами
+ * @param {object} countries страны
+ */
+function renderOptions(countries) {
+  let select = document.getElementById('country');
+  let optionsFragment = document.createDocumentFragment();
+  let selectEvent = new CustomEvent('selectLoaded');
+
   // наполнение select
-  for (var item in sortedCountries) {
+  for (var item in countries) {
     let option = document.createElement('option');
 
-    option.value = sortedCountries[item]['male'] + ',' + sortedCountries[item]['female'];
+    option.value = countries[item]['male'] + ',' + countries[item]['female'];
     option.text = item;
     optionsFragment.appendChild(option);
-
-    // вариант по умолчанию
-    if (item === country) option.selected = true;
   }
 
   select.appendChild(optionsFragment);
+
+  document.dispatchEvent(selectEvent);
+}
+
+/**
+ * сохраняет страны
+ * @param {object} countries
+ */
+function saveCountries(countries) {
+  let strCountries = JSON.stringify(countries);
+
+  localStorage.setItem('countries', strCountries);
+}
+
+/**
+ * извлекает страны
+ * @returns {object} countries
+ */
+function getCountries() {
+  let strCountries = localStorage.getItem('countries');
+
+  return JSON.parse(strCountries);
 }
 
 /**
  * получает среднюю продолжительность жизни
  */
 function loadCountries() {
-  httpRequest(URL, QUERY, renderOptions);
+  let countries = getCountries();
+
+  if (countries) {
+    renderOptions(countries);
+  } else {
+    httpRequest(URL, QUERY, countryProcessing);
+  }
 }
 
 export { loadCountries };

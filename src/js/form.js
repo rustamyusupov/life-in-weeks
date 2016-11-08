@@ -21,6 +21,12 @@ const WEEKS_IN_YEAR = 52;
  * @const
  * @type {string}
  */
+const DEFAULT_COUNTRY = 'Russian Federation';
+
+/**
+ * @const
+ * @type {string}
+ */
 const URL = 'https://en.wikipedia.org/w/api.php';
 
 /**
@@ -36,7 +42,7 @@ const QUERY = {
   format: 'json'
 };
 
-  let date = document.getElementById('date');
+let date = document.getElementById('date');
 
 /**
  * получает пол
@@ -81,6 +87,10 @@ function isValidAge() {
   return birthday ? birthday < today && minYear < birthday.getFullYear() : false;
 }
 
+/**
+ * проверяет дату рождения
+ * @returns {boolean}
+ */
 function isValidBirthday() {
   date.setCustomValidity('');
 
@@ -88,6 +98,20 @@ function isValidBirthday() {
   date.setCustomValidity(isValid ? '' : 'Invalid');
 
   return isValid;
+}
+
+/**
+ * устанавливает страну
+ */
+function setCountry(value) {
+  let country = document.getElementById('country');
+
+  for(let option of country.options) {
+    if (option.text === value) {
+      option.selected = true;
+      break;
+    }
+  }
 }
 
 /**
@@ -123,44 +147,56 @@ function parseData(data) {
 }
 
 /**
- * получает максимальную продолжительность жизни
+ * получает продолжительность жизни
+ * @returns {number}
  */
-function getMaxAge() {
-  // TODO: подумать насчет этой функции
-  //if ( localStorage.getItem('maxAge') === null )
-  //  httpRequest(URL, QUERY, saveMaxAge);
-
-  return parseInt( localStorage.getItem('maxAge') ) || MAX_AGE;
-}
-
-/**
- * устанавливает продолжительность жизни
- */
-function setLifeExpectancy() {
-  let titleYears = document.querySelector('.main__years');
-  let sex = document.querySelector('input[name="sex"]:checked');
+function getLifeExpectancy() {
+  let country = document.getElementById('country');
+  let sex = getSex();
 
   if (!sex) return;
 
-  let lifeExpectancy = sex.value === 'Male' ? country.value.split(',')[0] :
-    country.value.split(',')[1];
-  if (!lifeExpectancy) return;
-
-  titleYears.innerHTML = Math.floor(lifeExpectancy);
-
-  clearCells('table__disabled-cell');
-  renderCells( false, Math.floor(lifeExpectancy * WEEKS_IN_YEAR) );
+  return parseInt(sex === 'Male' ? country.value.split(',')[0] :
+    country.value.split(',')[1]);
 }
 
 /**
- * загружает данные в форму
+ * сохраняет максимальную продолжительность жизни
+ */
+function saveMaxAge(data) {
+  let age = parseData(data);
+
+  if (age) localStorage.setItem('maxAge', age);
+}
+
+/**
+ * обновляет возраст в заголовке
+ */
+function updateTitleYears() {
+  let titleYears = document.querySelector('.main__years');
+  let lifeExpectancy = getLifeExpectancy();
+
+  if (!lifeExpectancy) return;
+
+  titleYears.innerHTML = Math.floor(lifeExpectancy);
+}
+
+/**
+ * загружает данные
  */
 function loadData() {
   let sexValue = localStorage.getItem('sex');
   let birthday = localStorage.getItem('birthday');
+  let country = localStorage.getItem('country') || DEFAULT_COUNTRY;
+  let maxAge = localStorage.getItem('maxAge');
 
-  if (sexValue) document.getElementById(sexValue.toLowerCase()).checked=true;
+  if (sexValue) document.getElementById(sexValue.toLowerCase()).checked = true;
   if (birthday) date.value = birthday;
+  if (!maxAge) httpRequest(URL, QUERY, saveMaxAge);
+
+  setCountry(country);
+
+  updateData(); // TODO: подумать!
 }
 
 /**
@@ -176,16 +212,26 @@ function saveData() {
 }
 
 /**
- * обновляет таблицу в зависимости от данных формы
+ * обновляет таблицу
  */
 function updateTable() {
   let isValidFields = Boolean( getSex() ) && isValidBirthday() && Boolean( getCountry() );
   let elapsedWeeks = isValidFields ? getWeeksFromDate( getBirthday() ) : 0;
+  let lifeExpectancy = getLifeExpectancy();
 
-  clearCells('table__active-cell');
-  setLifeExpectancy();
-
+  // прожитые недели
   renderCells(true, elapsedWeeks);
+
+  // средняя продолжительность
+  renderCells(false, Math.floor(lifeExpectancy * WEEKS_IN_YEAR) );
+}
+
+/**
+ * обновляет данные
+ */
+function updateData() {
+  updateTable();
+  updateTitleYears();
   saveData();
 }
 
@@ -197,15 +243,13 @@ function load() {
   let country = document.getElementById('country');
 
   Array.prototype.forEach.call(sex, function(item) {
-    item.addEventListener('change', updateTable);
+    item.addEventListener('change', updateData);
   });
-  date.addEventListener('input', updateTable);
-  country.addEventListener('change', updateTable);
+  date.addEventListener('input', updateData);
+  country.addEventListener('change', updateData);
+  document.addEventListener('selectLoaded', loadData);
 
   loadCountries();
-  getMaxAge();
-  loadData();
-  updateTable();
 }
 
 export { load as loadForm };

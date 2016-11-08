@@ -20,9 +20,13 @@ function clearCells(className) {
 function renderCells(isActive, count) {
   let className = isActive ? 'table__active-cell' : 'table__disabled-cell';
 
+  if (count === 0) return;
+
+  clearCells(className);
+
   Array.prototype.forEach.call(cells, function(item, i) {
     if (isActive ? i < count : i > count) item.classList.add(className);
   });
 }
 
-export { clearCells, renderCells };
+export { renderCells };
