@@ -1,7 +1,7 @@
 'use strict';
 
 import { httpRequest } from './load';
-import { isDate, getWeeksFromDate } from './utils';
+import { isDate, getWeeksFromDate, getStorage, setStorage } from './utils';
 import { clearCells, renderCells } from './table';
 import { loadCountries } from './select';
 
@@ -41,6 +41,12 @@ const QUERY = {
   origin: '*',
   format: 'json'
 };
+
+/**
+ * @const
+ * @type {string}
+ */
+const EXPIRES_DAYS = 30;
 
 let date = document.getElementById('date');
 
@@ -82,7 +88,7 @@ function getCountry() {
 function isValidAge() {
   let today = new Date();
   let birthday = getBirthday();
-  let minYear = today.getFullYear() - (parseInt( localStorage.getItem('maxAge') ) || MAX_AGE);
+  let minYear = today.getFullYear() - (parseInt( getStorage('maxAge') ) || MAX_AGE);
 
   return birthday ? birthday < today && minYear < birthday.getFullYear() : false;
 }
@@ -163,7 +169,7 @@ function getLifeExpectancy() {
 function saveMaxAge(data) {
   let age = parseData(data);
 
-  if (age) localStorage.setItem('maxAge', age);
+  if (age) setStorage('maxAge', age, EXPIRES_DAYS);
 }
 
 /**
@@ -182,10 +188,10 @@ function updateTitleYears() {
  * загружает данные
  */
 function loadData() {
-  let sexValue = localStorage.getItem('sex');
-  let birthday = localStorage.getItem('birthday');
-  let country = localStorage.getItem('country') || DEFAULT_COUNTRY;
-  let maxAge = localStorage.getItem('maxAge');
+  let sexValue = getStorage('sex');
+  let birthday = getStorage('birthday');
+  let country = getStorage('country') || DEFAULT_COUNTRY;
+  let maxAge = getStorage('maxAge');
 
   if (sexValue) document.getElementById(sexValue.toLowerCase()).checked = true;
   if (birthday) date.value = birthday;
@@ -203,9 +209,9 @@ function saveData() {
   let sex = getSex();
   let country = getCountry();
 
-  if (sex) localStorage.setItem('sex', sex);
-  if ( isValidBirthday() ) localStorage.setItem('birthday', date.value);
-  if (country) localStorage.setItem('country', country);
+  if (sex) setStorage('sex', sex);
+  if ( isValidBirthday() ) setStorage('birthday', date.value);
+  if (country) setStorage('country', country);
 }
 
 /**

@@ -1,7 +1,7 @@
 'use strict';
 
 import { httpRequest } from './load';
-import { sortObject } from './utils'
+import { sortObject, getStorage, setStorage } from './utils'
 
 /**
  * @const
@@ -21,6 +21,12 @@ const QUERY = {
   origin: '*',
   format: 'json'
 };
+
+/**
+ * @const
+ * @type {string}
+ */
+const EXPIRES_DAYS = 30;
 
 /**
  * парсит данные
@@ -93,7 +99,7 @@ function renderOptions(countries) {
 function saveCountries(countries) {
   let strCountries = JSON.stringify(countries);
 
-  localStorage.setItem('countries', strCountries);
+  setStorage('countries', strCountries, EXPIRES_DAYS);
 }
 
 /**
@@ -101,7 +107,7 @@ function saveCountries(countries) {
  * @returns {object} countries
  */
 function getCountries() {
-  let strCountries = localStorage.getItem('countries');
+  let strCountries = getStorage('countries');
 
   return JSON.parse(strCountries);
 }

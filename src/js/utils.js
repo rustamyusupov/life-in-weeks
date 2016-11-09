@@ -27,6 +27,12 @@ const MILLISECONDS_IN_WEEKS = 1000 * 60 * 60 * 24 * 7;
  * @const
  * @type {number}
  */
+const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+
+/**
+ * @const
+ * @type {number}
+ */
 const WEEKS_IN_YEAR = 52;
 
 /**
@@ -104,4 +110,42 @@ function getWeeksFromDate(date) {
   return isDateInFuture ? yearsInWeeks + weeks : yearsInWeeks - weeks;
 }
 
-export { sortObject, isDate, getWeeksFromDate };
+/**
+ * удаляет запись из localStorage
+ * @param {string} key ключ
+ */
+function removeStorage(key) {
+  localStorage.removeItem(key);
+  localStorage.removeItem(key + '_expires');
+}
+
+/**
+ * получает значение из localStorage
+ * @param {string} key ключ
+ * @returns {string}
+ */
+function getStorage(key) {
+  let now = Date.now();
+  let expires = localStorage.getItem(key + '_expires');
+
+  if (!expires || expires > now) return localStorage.getItem(key);
+
+  removeStorage(key);
+  return null;
+}
+
+/**
+ * записывает значение в localStorage
+ * @param {string} key ключ
+ * @param {string} value значение
+ * @param {number} expires кол-во дней хранения
+ */
+function setStorage(key, value, expires) {
+  let now = Date.now();
+  let duration = now + expires * MILLISECONDS_IN_DAY;
+
+  localStorage.setItem(key, value);
+  if (expires) localStorage.setItem(key + '_expires', duration);
+}
+
+export { sortObject, isDate, getWeeksFromDate, getStorage, setStorage };
