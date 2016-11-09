@@ -36,8 +36,8 @@ function styles(options) {
       ]))
       .on('error', $.notify.onError( errorHandler ))
       .pipe($.if(options.transfer, gulp.dest(options.build)))
-      .pipe($.if(!isDev, $.csso()))
-      .pipe($.rename('style.min.css'))
+      //.pipe($.if(!isDev, $.csso()))
+      //.pipe($.rename('style.min.css'))
       .pipe($.debug({
         title: 'rename:'
       }))

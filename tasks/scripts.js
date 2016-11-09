@@ -33,8 +33,8 @@ function js(options) {
       }))
       .pipe($.if(isDev, $.sourcemaps.init({loadMaps: true})))
       .pipe($.if(options.transfer, gulp.dest(options.build)))
-      .pipe($.if(!isDev, $.uglify()))
-      .pipe($.rename('script.min.js'))
+      //.pipe($.if(!isDev, $.uglify()))
+      .pipe($.rename('script.js'))
       .pipe($.if(isDev, $.sourcemaps.write()))
       .pipe(gulp.dest(options.build));
   };
