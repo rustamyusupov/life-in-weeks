@@ -79,7 +79,7 @@ function renderOptions(countries) {
   let selectEvent = new CustomEvent('selectLoaded');
 
   // наполнение select
-  for (var item in countries) {
+  for (let item in countries) {
     let option = document.createElement('option');
 
     option.value = countries[item]['male'] + ',' + countries[item]['female'];
