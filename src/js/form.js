@@ -218,7 +218,7 @@ function saveData() {
  * обновляет таблицу
  */
 function updateTable() {
-  let isValidFields = Boolean( getSex() ) && isValidBirthday() && Boolean( getCountry() );
+  let isValidFields = Boolean( getSex() ) && isValidBirthday();
   let elapsedWeeks = isValidFields ? getWeeksFromDate( getBirthday() ) : 0;
   let lifeExpectancy = getLifeExpectancy();
 
@@ -253,6 +253,7 @@ function load() {
   document.addEventListener('selectLoaded', loadData);
 
   loadCountries();
+  loadData();
 }
 
 export { load as loadForm };
