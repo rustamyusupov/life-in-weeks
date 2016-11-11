@@ -1,13 +1,9 @@
 .table {
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
   margin-left: 45px;
+  margin-right: 20px;
   margin-top: 40px;
   max-width: 627px;
-  margin-right: 20px;
   position: relative;
-  width: 85%;
 
   &__label {
     color: $font-color-table-label;
@@ -167,12 +163,5 @@
 
   &__disabled-cell {
     border-color: $cell-disable-border-color;
-  }
-}
-
-@media #{$break-large} {
-  .table {
-    margin-right: 182px;
-    width: 627px;
   }
 }

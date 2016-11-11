@@ -4,37 +4,34 @@
   flex-wrap: wrap;
   font-size: $font-size-form;
   justify-content: center;
-  margin-bottom: 20px;
-  margin-left: 7px;
-  max-width: 450px;
-  width: 100%;
+  margin-bottom: 25px;
+  max-width: 500px;
 
   &__group {
-    margin-bottom: 5px;
+    margin-bottom: 7px;
     text-align: center;
 
     &--sex {
       display: flex;
       flex-wrap: wrap;
-      margin-right: 5px;
+      justify-content: center;
+      margin-right: 10px;
       width: 25%;
     }
 
     &--birthday {
-      margin-right: 10px;
+      margin-right: 20px;
       max-width: 100px;
       width: 30%;
     }
 
     &--country {
-      width: 40%;
+      width: 35%;
     }
   }
 
   &__group-item {
-    align-items: center;
-    display: flex;
-    margin-right: 5px;
+    margin-right: 10px;
 
     &:last-child {
       margin-right: 0;
@@ -49,9 +46,8 @@
     width: 100%;
   }
 
-  &__radio {
-    margin-right: 4px;
-    margin-bottom: 2px;
+  &__sublabel {
+    vertical-align: top;
   }
 
   &__date {
@@ -72,44 +68,5 @@
     line-height: $line-height-cite;
     text-align: center;
     width: 100%;
-  }
-}
-
-@media #{$break-large} {
-  .form {
-    align-items: flex-end;
-    flex-direction: column;
-    margin-left: 10px;
-    margin-right: 25px;
-    margin-top: 30px;
-    width: 130px;
-
-    &__group {
-      text-align: right;
-      margin-bottom: 10px;
-
-      &--sex {
-        justify-content: flex-end;
-        margin-right: 0;
-        width: 45.5%;
-      }
-
-      &--birthday {
-        margin-right: 0;
-        width: 100%;
-      }
-
-      &--country {
-        width: 100%;
-      }
-    }
-
-    &__group-item {
-      margin-right: 0;
-    }
-
-    &__cite {
-      text-align: right;
-    }
   }
 }
