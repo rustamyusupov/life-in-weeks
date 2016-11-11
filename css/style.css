@@ -482,21 +482,15 @@ ul {
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
   -webkit-align-items: center;
           align-items: center;
-  margin: 0 auto;
   padding: 0 10px;
-  min-width: 300px;
       -ms-flex-align: center;
 }
 
 .main__title {
   margin-top: 20px;
-  margin-bottom: 27px;
-  width: 100%;
+  margin-bottom: 20px;
   color: #000080;
   text-align: center;
   font-size: 40px;
@@ -516,17 +510,15 @@ ul {
           flex-wrap: wrap;
   -webkit-justify-content: center;
           justify-content: center;
-  margin-bottom: 20px;
-  margin-left: 7px;
-  max-width: 450px;
-  width: 100%;
+  margin-bottom: 25px;
+  max-width: 500px;
   color: #383838;
   font-size: 12px;
       -ms-flex-pack: center;
 }
 
 .form__group {
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   text-align: center;
 }
 
@@ -537,28 +529,25 @@ ul {
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
-  margin-right: 5px;
+  -webkit-justify-content: center;
+          justify-content: center;
+  margin-right: 10px;
   width: 25%;
+      -ms-flex-pack: center;
 }
 
 .form__group--birthday {
-  margin-right: 10px;
+  margin-right: 20px;
   max-width: 100px;
   width: 30%;
 }
 
 .form__group--country {
-  width: 40%;
+  width: 35%;
 }
 
 .form__group-item {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-          align-items: center;
-  margin-right: 5px;
-      -ms-flex-align: center;
+  margin-right: 10px;
 }
 
 .form__group-item:last-child {
@@ -573,9 +562,8 @@ ul {
   font-size: 14px;
 }
 
-.form__radio {
-  margin-right: 4px;
-  margin-bottom: 2px;
+.form__sublabel {
+  vertical-align: top;
 }
 
 .form__date {
@@ -600,18 +588,10 @@ ul {
 
 .table {
   position: relative;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-  box-sizing: border-box;
   margin-top: 40px;
   margin-right: 20px;
   margin-left: 45px;
   max-width: 627px;
-  width: 85%;
 }
 
 .table__label {
@@ -784,60 +764,4 @@ ul {
 
 .table__disabled-cell {
   border-color: #dfdfdf;
-}
-
-@media (min-width: 1024px) {
-  .main {
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-align-items: flex-start;
-    align-items: flex-start;
-    -webkit-justify-content: center;
-    justify-content: center;
-    padding: 0;
-    width: 100%;
-    -ms-flex-align: start;
-    -ms-flex-pack: center;
-  }
-  .form {
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-align-items: flex-end;
-    align-items: flex-end;
-    margin-top: 30px;
-    margin-right: 25px;
-    margin-left: 10px;
-    width: 130px;
-    -ms-flex-align: end;
-  }
-  .form__group {
-    margin-bottom: 10px;
-    text-align: right;
-  }
-  .form__group--sex {
-    -webkit-justify-content: flex-end;
-    justify-content: flex-end;
-    margin-right: 0;
-    width: 45.5%;
-    -ms-flex-pack: end;
-  }
-  .form__group--birthday {
-    margin-right: 0;
-    width: 100%;
-  }
-  .form__group--country {
-    width: 100%;
-  }
-  .form__group-item {
-    margin-right: 0;
-  }
-  .form__cite {
-    text-align: right;
-  }
-  .table {
-    margin-right: 182px;
-    width: 627px;
-  }
 }
