@@ -1,6 +1,5 @@
-_design/
-build/
-node_modules/
-.publish/
 .DS_Store
-*.log
+.vscode
+.parcel-cache
+node_modules
+dist
